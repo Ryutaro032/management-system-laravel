@@ -27,16 +27,4 @@ class Product extends Model
         'updated_at'
     ];
 
-    public function InsertProduct($request){
-        
-        return $this->create([
-            'product_name' => $request->product_name,
-            'company_name' => $request->company_name,
-            'price' => $request->price,
-            'stock' => $request->stock,
-            'comment' => $request->comment,
-            'img_path'=> $request->image
-        ]);
-    }
-
 }
