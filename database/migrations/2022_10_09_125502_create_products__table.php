@@ -13,11 +13,11 @@ class CreateProductsTable extends Migration
      */
     public function up()
     {
-        if(!Schema::hasTable('_products')){
-            Schema::create('_products', function (Blueprint $table) {
+        if(!Schema::hasTable('products')){
+            Schema::create('products', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->integer('company_id');
-                $table->string('img_path');
+                $table->text('img_path');
                 $table->string('product_name');
                 $table->integer('price');
                 $table->integer('stock');

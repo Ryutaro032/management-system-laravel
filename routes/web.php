@@ -12,8 +12,20 @@
 */
 //一覧表示
 Route::get('/product', 'ProductController@showList')->name('list');
+//検索機能
+Route::get('/product/search', 'ProductController@search')->name('search');
+//削除
+Route::post('/delete{id}', 'ProductController@delete')->name('delete');
+//登録画面の表示
+Route::get('/product/create', 'ProductController@showCreate')->name('create');
+//商品登録
+Route::post('/product/store', 'ProductController@exeStore')->name('store');
 //詳細表示
 Route::get('/product/{id}', 'ProductController@showDetail')->name('detail');
+//編集画面
+Route::get('/product/edit/{id}', 'ProductController@showEdit')->name('edit');
+Route::post('/product/edit/{id}', 'ProductController@update')->name('update');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
