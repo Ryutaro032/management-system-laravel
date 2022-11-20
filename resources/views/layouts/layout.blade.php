@@ -59,7 +59,7 @@
                 margin-bottom: 30px;
             }
             td img{
-                width: 100px;
+                width: 80px;
             }
         </style>
     </head>

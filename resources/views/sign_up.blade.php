@@ -13,6 +13,10 @@
             <input type="text" name="product_name" placeholder="商品名を入力">
         </div>
         <div class="form-group">
+            <label for="img_path">画像選択</label>
+            <input type="file" name="img_path">
+        </div>
+        <div class="form-group">
             <label for="company_name">メーカー名</label>
             <select name="company_name" id="company_name">
                 @foreach($creates as $create)
@@ -31,10 +35,6 @@
         <div class="form-group">
             <label for="comment">コメント</label>
             <textarea name="comment" id="comment" cols="40" rows="5"></textarea>
-        </div>
-        <div class="form-group">
-            <label for="image">画像選択</label>
-            <input type="file" name="image">
         </div>
         <button type="submit">登録</button>
         <a href="product/"><input type="button" value="戻る"></a>

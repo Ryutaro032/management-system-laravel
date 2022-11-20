@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
-use App\Http\Requests\ProductRequest;
 
 class ProductController extends Controller
 {
@@ -24,7 +23,7 @@ class ProductController extends Controller
      */
     public function delete($id){
         $product = Product::find($id);
-        $product->delete();
+        $product->destroy($id);
         return redirect()->route('list');
     }
 
@@ -47,8 +46,10 @@ class ProductController extends Controller
      * 検索機能
      */
     public function search(Request $request){
+        dd($request->all());
         $keyword = $request->input('keyword','');
         $products = Product::query();
+        //dd($products);
         if(!empty($keyword)){
             $products->where('product_name', 'LIKE',"%{$keyword}%")->get();
         }
@@ -58,9 +59,10 @@ class ProductController extends Controller
 
     /** 
      * 登録画面の表示
+     * 
      * @return view
     */
-    public function showCreate(Request $request) {
+    public function showCreate() {
         $creates = Product::all();
         return view('sign_up',['creates' => $creates]);
     }
@@ -69,22 +71,21 @@ class ProductController extends Controller
      * 商品の登録
      * 
     */
-    public function exeStore(Request $request) {
+    public function store(Request $request){
+        //dd($request);
         $product = new Product();
-        dd($request);
-        $img = $request->file('image');
-        //dd($img);
-        $path = $img->store('image','public');
-        //dd($path);
-
+        //dd($product);
         //値の登録
-        $product->product_name = $request->product_name;
-        $product->company_name = $request->company_name;
-        $product->price = $request->price;
-        $product->stock = $request->stock;
-        $product->img_path = $request->img_path;
-        $product->comment = $request->comment;
+        $product->product_name = $request->input('product_name');
+        $product->company_name = $request->input('company_name');
+        $product->price = $request->input('price');
+        $product->stock = $request->input('stock');
+        $product->comment = $request->input('comment');
+
         //保存
+        $path = $request->img_path->store('public/image');
+        $filename = basename($path);
+        $product->img_path = $filename;
         $product->save();
         \Session::flash('err_msg','商品を登録しました');
         return redirect(route('list'));
@@ -111,15 +112,15 @@ class ProductController extends Controller
      * 
      */
     public function update(Request $request, $id){
+        //dd($request);
         $product = Product::find($id);
 
-        $product->img_path = $request->input('img_path');
         $product->product_name = $request->input('product_name');
         $product->company_name = $request->input('company_name');
         $product->price = $request->input('price');
         $product->stock = $request->input('stock');
         $product->comment = $request->input('comment');
-        $product->img_path = $request->input('img_path');
+
         $product->save();
 
         return redirect(route('list'));
