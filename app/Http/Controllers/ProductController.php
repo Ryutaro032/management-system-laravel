@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -16,6 +17,25 @@ class ProductController extends Controller
         $products = $model->getList();
 
         return view('list',['products' => $products]);
+    }
+
+    /**
+     * 検索機能
+     * 
+     */
+    public function search(Request $request){
+        $search1 = $request->get('keyword');
+        $search2 = $request->get('company_name');
+        $query = Product::query();
+
+        if(!empty($search1)){
+            $query->where('product_name', 'like', '%'.$search1.'%');
+        }
+        if(!empty($search2)){
+            $query->where('company_name', $search2);
+        }
+        $products = $query->get();
+        return view('search', compact('products', 'search1', 'search2'));
     }
 
     /**
@@ -41,21 +61,6 @@ class ProductController extends Controller
         }
         return view('detail',['product' => $product]);
     }
-
-    /**
-     * 検索機能
-     */
-    public function search(Request $request){
-        dd($request->all());
-        $keyword = $request->input('keyword','');
-        $products = Product::query();
-        //dd($products);
-        if(!empty($keyword)){
-            $products->where('product_name', 'LIKE',"%{$keyword}%")->get();
-        }
-        return view('list',['products' => $products])->with('keyword',$keyword);
-    }   
-
 
     /** 
      * 登録画面の表示
@@ -121,8 +126,15 @@ class ProductController extends Controller
         $product->stock = $request->input('stock');
         $product->comment = $request->input('comment');
 
+        $image = $request->file('img_path');
+        $path = $product->img_path;
+        if(isset($image)){
+            \Storage::disk('public')->delete($path);
+            $path = $image->store('public/image');
+            $filename = basename($path);
+            $product->img_path = $filename;
+        }
         $product->save();
-
         return redirect(route('list'));
     }
 

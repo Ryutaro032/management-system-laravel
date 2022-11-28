@@ -63,11 +63,11 @@
             }
         </style>
     </head>
-    <body>
-        
+    <body>  
         <div class="flex-center position-ref full-height">
-            @yield('sign_up')
+           
             <div class="content">
+                @yield('sign_up')
                 @yield('search')
                 @yield('content')
             </div>

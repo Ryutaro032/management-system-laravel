@@ -3,23 +3,21 @@
 @section('content')
 <div>
     <h2>商品編集フォーム</h2>
-    <form action="{{route('update', ['id' => $product->id])}}" method="post">
+    <form action="{{route('update', $product->id)}}" enctype="multipart/form-data" method="post">
     @csrf
     <div>
         <label for="">商品画像</label>
-            <input 
-                id="img"
-                name="img"
-                value="{{ old('img_path') ?:$product->img_path }}"
-                type="file"
-        >
+            <div>
+                <input type="file" name="img_path">
+            </div>
+            <img src="{{ asset('storage/image/' . $product->img_path) }}" alt="$product->img_path" width="25%">
     </div>
     <div>
         <label for="">商品名</label>
         <input 
             id="product_name"
             name="product_name"
-            value="{{ old('product_name') ?:$product->name }}"
+            value="{{ old('product_name') ?:$product->product_name }}"
             type="text"
         >
     </div>
@@ -60,10 +58,12 @@
 
         </textarea>
     </div>
+    <div>
         <button type="submit">更新する</button>
-        <a href="#">
-            <input type="button" value="戻る">
-        </a>
+            <a href="{{ route('detail', $product->id) }}">
+                <input type="button" value="戻る">
+            </a>
+    </div>
     </form>
 </div>
 @endsection

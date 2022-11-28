@@ -59,15 +59,15 @@
                 margin-bottom: 30px;
             }
             td img{
-                width: 100px;
+                width: 80px;
             }
         </style>
     </head>
-    <body>
-        
+    <body>  
         <div class="flex-center position-ref full-height">
-            <?php echo $__env->yieldContent('sign_up'); ?>
+           
             <div class="content">
+                <?php echo $__env->yieldContent('sign_up'); ?>
                 <?php echo $__env->yieldContent('search'); ?>
                 <?php echo $__env->yieldContent('content'); ?>
             </div>

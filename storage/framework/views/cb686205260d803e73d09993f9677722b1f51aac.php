@@ -15,7 +15,7 @@
     <tbody>
         <tr>
             <td><?php echo e($product->id); ?></td>
-            <td><img src="<?php echo e(asset('storage/image/' . $product->img_path)); ?>" alt="<?php echo e($product->img_path); ?>"></td>
+            <td><img src="<?php echo e(asset('image/' . $product->img_path)); ?>" alt="<?php echo e($product->img_path); ?>"></td>
             <td><?php echo e($product->product_name); ?></td>
             <td><?php echo e($product->company_name); ?></td>
             <td><?php echo e($product->price); ?></td>
@@ -31,4 +31,4 @@
     </tbody>
 </table>
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('layouts.layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\management-system\resources\views/detail.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\management-system\resources\views/product/detail.blade.php ENDPATH**/ ?>

@@ -3,6 +3,20 @@
 @section('sign_up')
 <div class="top-right links">
     <a href="{{ route('create') }}">商品登録</a>
+    @if (Route::has('login'))
+                <div class="top-right links">
+                @yield('sign_up')
+                    @auth
+                        <a href="{{ url('/home') }}">Home</a>
+                    @else
+                        <a href="{{ route('login') }}">Login</a>
+
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}">Register</a>
+                        @endif
+                    @endauth
+                </div>
+            @endif
 </div>
 @endsection
 @section('search')
@@ -12,7 +26,7 @@
         type="text" 
         name="keyword" 
         placeholder="キーワードを入力"
-        value=""
+        value="@if (isset( $keyword1 )) {{ $keyword1 }}@endif"
     >
     <select name="company_name" id="company_name">
     @foreach ($products as $product)
@@ -31,7 +45,7 @@
 <table>
     <thead>
         <tr>
-            <th>ID</th>
+            <th hidden>ID</th>
             <th>商品画像</th>
             <th>商品名</th>
             <th>価格</th>
@@ -42,7 +56,7 @@
     <tbody>
     @foreach ($products as $product)
         <tr>
-            <td>{{ $product->id }}</td>
+            <td hidden>{{ $product->id }}</td>
             <td><img src="{{ asset('storage/image/' . $product->img_path) }}"></td>
             <td>{{ $product->product_name }}</td>
             <td>{{ $product->price }}</td>

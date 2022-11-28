@@ -19,7 +19,7 @@ Route::post('/delete{id}', 'ProductController@delete')->name('delete');
 //登録画面の表示
 Route::get('/product/create', 'ProductController@showCreate')->name('create');
 //商品登録
-Route::post('/product/store', 'ProductController@exeStore')->name('store');
+Route::post('/product/store', 'ProductController@store')->name('store');
 //詳細表示
 Route::get('/product/{id}', 'ProductController@showDetail')->name('detail');
 //編集画面
