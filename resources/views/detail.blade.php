@@ -1,10 +1,10 @@
 @extends('layouts.layout')
 @section('title','詳細表示')
 @section('content')
-<table>
-    <thead>
+<table class="table">
+    <thead class="thead-light">
         <tr>
-            <th>ID</th>
+            <th hidden>ID</th>
             <th>商品画像</th>
             <th>商品名</th>
             <th>メーカー名</th>
@@ -15,7 +15,7 @@
     </thead>
     <tbody>
         <tr>
-            <td>{{ $product->id }}</td>
+            <td hidden>{{ $product->id }}</td>
             <td><img src="{{ asset('storage/image/' . $product->img_path) }}" alt="{{ $product->img_path }}"></td>
             <td>{{ $product->product_name }}</td>
             <td>{{ $product->company_name }}</td>
@@ -23,9 +23,16 @@
             <td>{{ $product->stock }}</td>
             <td>{{ $product->comment }}</td>
             <td>
-                <button type="submit" onclick="location.href='edit/{{ $product->id }}'">編集</button>
+                <button 
+                    type="submit" 
+                    class="btn-light"
+                >
+                    <a href="{{route('edit', $product->id )}}">
+                        編集
+                    </a>
+                </button>
                 <a href="product">
-                    <input type="button" value="戻る">
+                    <input type="button" value="戻る" class="btn-dark">
                 </a>
             </td>
         </tr>

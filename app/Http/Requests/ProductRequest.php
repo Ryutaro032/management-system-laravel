@@ -26,7 +26,7 @@ class ProductRequest extends FormRequest
         return [
             'product_name' => 'required',
             'company_name' => 'required',
-            'comment' => 'required',
+            'comment' => 'max:5000',
             'img_path' => 'required|file|image'
         ];
     }

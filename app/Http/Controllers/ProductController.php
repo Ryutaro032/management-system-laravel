@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Company;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
@@ -13,10 +14,10 @@ class ProductController extends Controller
      * @return view
     */
     public function showList() {
-        $model = new Product();
-        $products = $model->getList();
+        $products = Product::all()->paginate(10);
+        $companies = Company::all();
 
-        return view('list',['products' => $products]);
+        return view('list',['products' => $products,'companies'=> $companies]);
     }
 
     /**
@@ -68,7 +69,7 @@ class ProductController extends Controller
      * @return view
     */
     public function showCreate() {
-        $creates = Product::all();
+        $creates = Company::all();
         return view('sign_up',['creates' => $creates]);
     }
 
@@ -79,19 +80,22 @@ class ProductController extends Controller
     public function store(Request $request){
         //dd($request);
         $product = new Product();
+        $company = new Company();
         //dd($product);
         //値の登録
         $product->product_name = $request->input('product_name');
-        $product->company_name = $request->input('company_name');
         $product->price = $request->input('price');
         $product->stock = $request->input('stock');
-        $product->comment = $request->input('comment');
+        $product->comment = $request->input('comment');        
 
-        //保存
         $path = $request->img_path->store('public/image');
         $filename = basename($path);
         $product->img_path = $filename;
+
+        $company->company_name = $request->input('company_name');
+
         $product->save();
+
         \Session::flash('err_msg','商品を登録しました');
         return redirect(route('list'));
     }
@@ -103,13 +107,9 @@ class ProductController extends Controller
     */
     public function showEdit($id) {
         $product = Product::findOrFail($id);
-        $products = Product::all();
+        $items = Product::all();
 
-        if(is_null($product)){
-            \Session::flash('err_msg','データがありません');
-            return redirect(route('list'));
-        }
-        return view('edit',['product' => $product,'products' => $products]);
+        return view('edit',['items' => $items,'product' => $product]);
     }
     /**
      * 編集機能
@@ -135,7 +135,7 @@ class ProductController extends Controller
             $product->img_path = $filename;
         }
         $product->save();
-        return redirect(route('list'));
+        return redirect(route('detail',['id' => $product->id]));
     }
 
 }

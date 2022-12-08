@@ -1,22 +1,22 @@
 @extends('layouts.layout')
 @section('title','一覧画面')
-@section('sign_up')
-<div class="top-right links">
-    <a href="{{ route('create') }}">商品登録</a>
+@section('main-title','商品一覧')
+@section('header')
+<div class="top-right">
     @if (Route::has('login'))
-                <div class="top-right links">
-                @yield('sign_up')
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
+        <div class="nav btn-group">
+            <a href="{{ route('create') }}" class="btn-outline-primary">商品登録</a>
+            @auth
+                <a href="{{ url('/home') }}" class="btn-outline-primary">Home</a>
+            @else
+                <a href="{{ route('login') }}" class="btn-outline-primary">Login</a>
 
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
+                @if (Route::has('register'))
+                    <a href="{{ route('register') }}" class="btn-outline-primary">Register</a>
+                @endif
+            @endauth
+        </div>
+    @endif
 </div>
 @endsection
 @section('search')
@@ -29,8 +29,8 @@
         value="@if (isset( $keyword1 )) {{ $keyword1 }}@endif"
     >
     <select name="company_name" id="company_name">
-    @foreach ($products as $product)
-        <option value="{{ $product->company_name }}">{{ $product->company_name }}</option>
+    @foreach ($companies as $company)
+        <option value="{{ $company->company_name }}">{{ $company->company_name }}</option>
     @endforeach
     </select>
     <button type="submit">検索</button>
@@ -42,8 +42,8 @@
         {{ session('err_msg') }}
     </p>
 @endif
-<table>
-    <thead>
+<table class="table">
+    <thead class="thead-light">
         <tr>
             <th hidden>ID</th>
             <th>商品画像</th>
@@ -64,17 +64,18 @@
             <td>{{ $product->company_name }}</td>
             <td>
                 <a href="product/{{ $product->id }}">
-                    <button type="submit">詳細</button>
+                    <button type="submit" class="btn btn-primary">詳細</button>
                 </a>
-            </td>
-            <td>
                 <form action="{{ route('delete', ['id'=>$product->id]) }}" method="post">
                 @csrf
-                    <button type="submit">削除</button>
+                    <button type="submit" class="btn btn-danger">削除</button>
                 </form>
             </td>
         </tr>
     @endforeach
     </tbody>
 </table>
+<div class="paginate">
+    {{ $products->links() }}
+</div>
 @endsection

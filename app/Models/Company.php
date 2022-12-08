@@ -5,21 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class Product extends Model
+class Company extends Model
 {
-    protected $table = 'products';
+    protected $table = 'companies';
 
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'company_id',
-        'product_name',
-        'price',
-        'stock',
-        'comment',
-        'img_path',
+        'company_name',
+        'street_address',
+        'representative',
         'created_at',
         'updated_at'
     ];
-
 }
