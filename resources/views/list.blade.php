@@ -66,7 +66,7 @@
                 <a href="product/{{ $product->id }}">
                     <button type="submit" class="btn btn-primary">詳細</button>
                 </a>
-                <form action="{{ route('delete', ['id'=>$product->id]) }}" method="post">
+                <form action="product/delete/{{$product->id }}" method="post">
                 @csrf
                     <button type="submit" class="btn btn-danger">削除</button>
                 </form>

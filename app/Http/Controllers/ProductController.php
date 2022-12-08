@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Company;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -14,9 +15,11 @@ class ProductController extends Controller
      * @return view
     */
     public function showList() {
-        $products = Product::all()->paginate(10);
+        $model = new Product();
+        $products = $model->getList()
+        ->paginate(10);
         $companies = Company::all();
-
+        //dd($products->all());
         return view('list',['products' => $products,'companies'=> $companies]);
     }
 
@@ -41,6 +44,7 @@ class ProductController extends Controller
 
     /**
      * 削除機能
+     * @param int $id
      */
     public function delete($id){
         $product = Product::find($id);
