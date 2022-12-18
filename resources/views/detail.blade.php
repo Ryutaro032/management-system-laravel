@@ -18,7 +18,7 @@
             <td hidden>{{ $product->id }}</td>
             <td><img src="{{ asset('storage/image/' . $product->img_path) }}" alt="{{ $product->img_path }}"></td>
             <td>{{ $product->product_name }}</td>
-            <td>{{ $product->company_name }}</td>
+            <td>{{ $product->company->company_name }}</td>
             <td>{{ $product->price }}</td>
             <td>{{ $product->stock }}</td>
             <td>{{ $product->comment }}</td>

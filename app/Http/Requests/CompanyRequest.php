@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProductRequest extends FormRequest
+class CompanyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,7 @@ class ProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'product_name' => 'required',
             'company_name' => 'required',
-            'comment' => 'max:5000',
-            'img_path' => 'required|file|image'
         ];
     }
 
@@ -38,9 +35,7 @@ class ProductRequest extends FormRequest
      */
     public function messages() {
         return [
-            'product_name.max' => ':attributeは:max字以内で入力してください。',
             'company_name.max' => ':attributeは:max字以内で入力してください。',
-            'comment.max' => ':attributeは:max字以内で入力してください。',
         ];
     }
 }

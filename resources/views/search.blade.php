@@ -21,7 +21,7 @@
             <td>{{ $product->product_name }}</td>
             <td>{{ $product->price }}</td>
             <td>{{ $product->stock }}</td>
-            <td>{{ $product->company_name }}</td>
+            <td>{{ $product->company->company_name }}</td>
             <td>
                 <a href="{{ $product->id }}">
                     <button type="submit">詳細</button>

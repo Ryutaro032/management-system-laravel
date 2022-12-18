@@ -62,9 +62,9 @@
         </div>
         <div>
             <select name="company_name" id="company_name">
-                @foreach ($items as $key => $item)
+                @foreach ($items as $product)
                     <option>
-                        {{ $item->company_name }}
+                        {{ $product->company->company_name }}
                     </option>
                 @endforeach
             </select>

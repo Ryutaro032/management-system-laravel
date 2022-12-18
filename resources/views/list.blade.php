@@ -28,9 +28,9 @@
         placeholder="キーワードを入力"
         value="@if (isset( $keyword1 )) {{ $keyword1 }}@endif"
     >
-    <select name="company_name" id="company_name">
-    @foreach ($companies as $company)
-        <option value="{{ $company->company_name }}">{{ $company->company_name }}</option>
+    <select>
+    @foreach ($products as $product)
+        <option>{{ $product->company->company_name }}</option>
     @endforeach
     </select>
     <button type="submit">検索</button>
@@ -45,7 +45,7 @@
 <table class="table">
     <thead class="thead-light">
         <tr>
-            <th hidden>ID</th>
+            <th>ID</th>
             <th>商品画像</th>
             <th>商品名</th>
             <th>価格</th>
@@ -56,12 +56,12 @@
     <tbody>
     @foreach ($products as $product)
         <tr>
-            <td hidden>{{ $product->id }}</td>
+            <td>{{ $product->id }}</td>
             <td><img src="{{ asset('storage/image/' . $product->img_path) }}"></td>
             <td>{{ $product->product_name }}</td>
             <td>{{ $product->price }}</td>
             <td>{{ $product->stock }}</td>
-            <td>{{ $product->company_name }}</td>
+            <td>{{ $product->company->company_name }}</td>
             <td>
                 <a href="product/{{ $product->id }}">
                     <button type="submit" class="btn btn-primary">詳細</button>
@@ -75,7 +75,4 @@
     @endforeach
     </tbody>
 </table>
-<div class="paginate">
-    {{ $products->links() }}
-</div>
 @endsection

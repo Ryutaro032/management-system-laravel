@@ -3,24 +3,25 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\ProductRequest;
+use App\Http\Requests\CompanyRequest;
 use App\Models\Product;
 use App\Models\Company;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 
+
 class ProductController extends Controller
 {
+    //ProductController
     /** 
-     * 
+     * 一覧画面
      * @return view
     */
     public function showList() {
         $model = new Product();
-        $products = $model->getList()
-        ->paginate(10);
-        $companies = Company::all();
-        //dd($products->all());
-        return view('list',['products' => $products,'companies'=> $companies]);
+        $products = $model->getList();
+        return view('list',['products' => $products]);
     }
 
     /**
@@ -30,7 +31,8 @@ class ProductController extends Controller
     public function search(Request $request){
         $search1 = $request->get('keyword');
         $search2 = $request->get('company_name');
-        $query = Product::query();
+        $model = new Product();
+        $query = $model->getList()->query();
 
         if(!empty($search1)){
             $query->where('product_name', 'like', '%'.$search1.'%');
@@ -47,8 +49,9 @@ class ProductController extends Controller
      * @param int $id
      */
     public function delete($id){
-        $product = Product::find($id);
-        $product->destroy($id);
+        $model = new product();
+        $product = $model->getList()->find($id);
+        $product->truncate($id);
         return redirect()->route('list');
     }
 
@@ -58,12 +61,8 @@ class ProductController extends Controller
      * @return view
     */
     public function showDetail($id) {
-        $product = Product::find($id);
-
-        if(is_null($product)){
-            \Session::flash('err_msg','データがありません');
-            return redirect(route('list'));
-        }
+        $model = new product();
+        $product = $model->getList()->find($id);
         return view('detail',['product' => $product]);
     }
 
@@ -73,35 +72,21 @@ class ProductController extends Controller
      * @return view
     */
     public function showCreate() {
-        $creates = Company::all();
-        return view('sign_up',['creates' => $creates]);
+        $model = new Product();
+        $products = $model->getList();
+        //dd($products);
+        return view('sign_up',['products' => $products]);
     }
 
     /** 
      * 商品の登録
      * 
     */
-    public function store(Request $request){
-        //dd($request);
-        $product = new Product();
-        $company = new Company();
-        //dd($product);
-        //値の登録
-        $product->product_name = $request->input('product_name');
-        $product->price = $request->input('price');
-        $product->stock = $request->input('stock');
-        $product->comment = $request->input('comment');        
-
-        $path = $request->img_path->store('public/image');
-        $filename = basename($path);
-        $product->img_path = $filename;
-
-        $company->company_name = $request->input('company_name');
-
-        $product->save();
-
-        \Session::flash('err_msg','商品を登録しました');
-        return redirect(route('list'));
+    public function productStore(Request $req) {
+        $model = new Product();
+        $products = $model->insertNewProduct($req);
+        dd($products);
+        return view('list',['products' => $products]);
     }
 
     /** 
@@ -110,8 +95,9 @@ class ProductController extends Controller
      * @return view
     */
     public function showEdit($id) {
-        $product = Product::findOrFail($id);
-        $items = Product::all();
+        $model = new product();
+        $product = $model->getList()->find($id);
+        $items = $model->getList();
 
         return view('edit',['items' => $items,'product' => $product]);
     }
@@ -122,7 +108,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id){
         //dd($request);
-        $product = Product::find($id);
+        $product = Product::with('company')->find($id);
 
         $product->product_name = $request->input('product_name');
         $product->company_name = $request->input('company_name');
