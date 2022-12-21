@@ -28,10 +28,10 @@
         placeholder="キーワードを入力"
         value="@if (isset( $keyword1 )) {{ $keyword1 }}@endif"
     >
-    <select>
-    @foreach ($products as $product)
-        <option>{{ $product->company->company_name }}</option>
-    @endforeach
+    <select name="company">
+        @foreach($company as $item)
+        <option value="{{ $item->id }}">{{ $item->company_name }}</option>
+        @endforeach
     </select>
     <button type="submit">検索</button>
 </form>

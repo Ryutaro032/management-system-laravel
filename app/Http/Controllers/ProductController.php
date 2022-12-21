@@ -21,7 +21,8 @@ class ProductController extends Controller
     public function showList() {
         $model = new Product();
         $products = $model->getList();
-        return view('list',['products' => $products]);
+        $company = Company::all();
+        return view('list',['products' => $products,'company' => $company]);
     }
 
     /**
@@ -72,10 +73,8 @@ class ProductController extends Controller
      * @return view
     */
     public function showCreate() {
-        $model = new Product();
-        $products = $model->getList();
-        //dd($products);
-        return view('sign_up',['products' => $products]);
+        $company = Company::all();
+        return view('sign_up',['company' => $company]);
     }
 
     /** 
@@ -83,11 +82,21 @@ class ProductController extends Controller
      * 
     */
     public function productStore(Request $req) {
+        DB::beginTransaction();
+    try {
+        // 登録処理呼び出し
         $model = new Product();
-        $products = $model->insertNewProduct($req);
-        dd($products);
-        return view('list',['products' => $products]);
+        $model->insertNewProduct($req);
+        DB::commit();
+    } catch (\Exception $e) {
+        DB::rollback();
+        return back();
     }
+
+    // 処理が完了したらregistにリダイレクト
+    return redirect(route('list'));
+}
+       
 
     /** 
      * 編集画面
@@ -97,18 +106,29 @@ class ProductController extends Controller
     public function showEdit($id) {
         $model = new product();
         $product = $model->getList()->find($id);
-        $items = $model->getList();
+        $company = Company::all();
 
-        return view('edit',['items' => $items,'product' => $product]);
+        return view('edit',['company' => $company,'product' => $product]);
     }
     /**
      * 編集機能
      * @param int $id
      * 
      */
-    public function update(Request $request, $id){
-        //dd($request);
-        $product = Product::with('company')->find($id);
+    public function listUpdate(Request $req){
+        DB::beginTransaction();
+    try {
+        // 登録処理呼び出し
+        $model = new Product();
+        $model->updateProduct($req);
+        DB::commit();
+    } catch (\Exception $e) {
+        DB::rollback();
+        return back();
+    }
+    return redirect(route('detail',['id' => $product->id]));
+        /*$model = new product();
+        $product = $model->getList()->find($id);
 
         $product->product_name = $request->input('product_name');
         $product->company_name = $request->input('company_name');
@@ -124,8 +144,8 @@ class ProductController extends Controller
             $filename = basename($path);
             $product->img_path = $filename;
         }
-        $product->save();
-        return redirect(route('detail',['id' => $product->id]));
+        $product->save();*/
+       // return redirect(route('detail',['id' => $product->id]));
     }
 
 }

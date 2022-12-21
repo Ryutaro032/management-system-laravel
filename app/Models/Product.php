@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class Product extends Model
@@ -30,26 +31,47 @@ class Product extends Model
         return $products;
     }
 
-    public function insertNewProduct($data){
-        DB::beginTransaction();
-        try {
-            $data = DB::table('product')->with('company')
-            ->insert([
-                'company_id'    =>  $req->company_id,
-                'company_name'  =>  $req->company->company_name,
-                'product_name'  =>  $req->product_name,
-                'price'         =>  $req->price,
-                'stock'         =>  $req->stock,
-                'comment'       =>  $req->comment,
-                'img_path'      =>  $req->img_path,
-                'created_at'    =>  Carbon::now()
-            ]);
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollback();
-            $sessionflashmessage = $e;//エラー文
-            return back();
+    public function insertNewProduct($data) {
+        $image = $data->file('img_path');
+        $path = $data->img_path;
+        if(isset($image)){
+            $path = $image->store('public/image');
+            $filename = basename($path);
+            $data->img_path = $filename;
         }
-        return;
+
+        DB::table('products')->insert([
+            'company_id'    =>  $data->company,
+            'product_name'  =>  $data->product_name,
+            'price'         =>  $data->price,
+            'stock'         =>  $data->stock,
+            'comment'       =>  $data->comment,
+            'img_path'      =>  $data->img_path,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
     }
+
+    public function updateProduct($data) {
+        $image = $data->file('img_path');
+        $path = $data->img_path;
+        if(isset($image)){
+            \Storage::disk('public')->delete($path);
+            $path = $image->store('public/image');
+            $filename = basename($path);
+            $data->img_path = $filename;
+        }
+
+        DB::table('products')->save([
+            'company_id'    =>  $data->company,
+            'product_name'  =>  $data->product_name,
+            'price'         =>  $data->price,
+            'stock'         =>  $data->stock,
+            'comment'       =>  $data->comment,
+            'img_path'      =>  $data->img_path,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+    }
+
 }

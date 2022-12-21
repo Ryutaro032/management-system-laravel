@@ -24,7 +24,7 @@ Route::post('/product/productStore', 'ProductController@productStore')->name('pr
 Route::get('/product/{id}', 'ProductController@showDetail')->name('detail');
 //編集画面
 Route::get('/product/edit/{id}', 'ProductController@showEdit')->name('edit');
-Route::post('/product/update/{id}', 'ProductController@update')->name('update');
+Route::post('/product/update/{id}', 'ProductController@listUpdate')->name('listUpdate');
 
 Auth::routes();
 

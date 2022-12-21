@@ -5,7 +5,7 @@
     <h2>@section('main-title','商品編集フォーム')</h2>
 </div>
 <div>
-    <form action="{{route('update', ['id'=>$product->id])}}" enctype="multipart/form-data" method="post">
+    <form action="{{route('listUpdate', ['id'=>$product->id])}}" enctype="multipart/form-data" method="post">
     @csrf
         <div>
             <label for="">商品画像</label>
@@ -61,10 +61,11 @@
             </div>
         </div>
         <div>
-            <select name="company_name" id="company_name">
-                @foreach ($items as $product)
-                    <option>
-                        {{ $product->company->company_name }}
+            {{ $product->company->company_name }}
+            <select name="company">
+                @foreach ($company as $item)
+                    <option name="{{ $item->id }}">
+                        {{ $item->company_name }}
                     </option>
                 @endforeach
             </select>
