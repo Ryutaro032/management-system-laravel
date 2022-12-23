@@ -62,7 +62,7 @@ class Product extends Model
             $data->img_path = $filename;
         }
 
-        DB::table('products')->save([
+        DB::table('products')->update([
             'company_id'    =>  $data->company,
             'product_name'  =>  $data->product_name,
             'price'         =>  $data->price,

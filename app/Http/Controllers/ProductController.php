@@ -115,12 +115,12 @@ class ProductController extends Controller
      * @param int $id
      * 
      */
-    public function listUpdate(Request $req){
+    public function update(Request $req, $id){
         DB::beginTransaction();
     try {
-        // 登録処理呼び出し
         $model = new Product();
-        $model->updateProduct($req);
+        $product = $model->getList()->find($id);
+        $product->updateProduct($req);
         DB::commit();
     } catch (\Exception $e) {
         DB::rollback();
