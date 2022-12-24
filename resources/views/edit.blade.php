@@ -5,60 +5,28 @@
     <h2>@section('main-title','商品編集フォーム')</h2>
 </div>
 <div>
-    <form action="{{route('listUpdate', ['id'=>$product->id])}}" enctype="multipart/form-data" method="post">
+    <form action="{{route('update', ['id'=>$product->id])}}" enctype="multipart/form-data" method="post">
     @csrf
         <div>
-            <label for="">商品画像</label>
-            <div>
-                <input type="file" name="img_path" class="form-control-file">
-            </div>
-            <img src="{{ asset('storage/image/' . $product->img_path) }}" alt="$product->img_path" width="25%">
+            <input type="file" name="img_path" class="form-control-file">
         </div>
         <div>
-            <label for="">商品名</label>
-            <div>
-                <input 
-                    id="product_name"
-                    name="product_name"
-                    value="{{ old('product_name') ?:$product->product_name }}"
-                    type="text"
-                >
-            </div>
+            <label>商品名</label>
+            <input name="product_name" value="{{ old('product_name') ?:$product->product_name }}" type="text">
         </div>
         <div>
-            <label for="">価格</label>
-            <div>
-                <input 
-                    id="price"
-                    name="price"
-                    value="{{ old('price') ?:$product->price }}"
-                    type="text"
-                >
-            </div>
+            <label>価格</label>
+            <input name="price" value="{{ old('price') ?:$product->price }}" type="text">
         </div>
         <div>
-            <label for="">在庫数</label>
-            <div>
-                <input 
-                    id="stock"
-                    name="stock"
-                    value="{{ old('stock') ?:$product->stock }}"
-                    type="text"
-                >
-            </div>
+            <label>在庫数</label>
+            <input name="stock" value="{{ old('stock') ?:$product->stock }}"  type="text">
         </div>
         <div>
-            <label for="">コメント</label>
-            <div>
-                <textarea 
-                    name="comment" 
-                    id="comment" 
-                    cols="40" 
-                    rows="5"
-                >
-                {{$product->comment}}
-                </textarea>
-            </div>
+            <label>コメント</label>
+            <textarea name="comment" cols="40" rows="5">
+            {{$product->comment}}
+            </textarea>
         </div>
         <div>
             {{ $product->company->company_name }}
@@ -70,7 +38,7 @@
                 @endforeach
             </select>
         </div>
-        <div>
+         <div>
             <input type="submit" class="btn-success"></input>
             <a href='{{ route("detail", ["id"=> $product->id]) }}'>
                 <input type="button" value="戻る" class="btn-dark">

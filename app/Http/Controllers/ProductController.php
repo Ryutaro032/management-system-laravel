@@ -52,7 +52,7 @@ class ProductController extends Controller
     public function delete($id){
         $model = new product();
         $product = $model->getList()->find($id);
-        $product->truncate($id);
+        $product->delete($id);
         return redirect()->route('list');
     }
 
@@ -115,7 +115,7 @@ class ProductController extends Controller
      * @param int $id
      * 
      */
-    public function update(Request $req, $id){
+    public function updateStore(Request $req, $id){
         DB::beginTransaction();
     try {
         $model = new Product();
@@ -127,25 +127,6 @@ class ProductController extends Controller
         return back();
     }
     return redirect(route('detail',['id' => $product->id]));
-        /*$model = new product();
-        $product = $model->getList()->find($id);
-
-        $product->product_name = $request->input('product_name');
-        $product->company_name = $request->input('company_name');
-        $product->price = $request->input('price');
-        $product->stock = $request->input('stock');
-        $product->comment = $request->input('comment');
-
-        $image = $request->file('img_path');
-        $path = $product->img_path;
-        if(isset($image)){
-            \Storage::disk('public')->delete($path);
-            $path = $image->store('public/image');
-            $filename = basename($path);
-            $product->img_path = $filename;
-        }
-        $product->save();*/
-       // return redirect(route('detail',['id' => $product->id]));
     }
 
 }
