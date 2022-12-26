@@ -33,9 +33,7 @@
                         編集
                     </a>
                 </button>
-                <a href="product">
-                    <input type="button" value="戻る" class="btn-dark">
-                </a>
+                <a href="{{ route('list') }}"><input type="button" name="" id="" value="戻る"></a>
             </td>
         </tr>
     </tbody>

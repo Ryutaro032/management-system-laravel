@@ -8,7 +8,7 @@
     <form action="{{route('update', ['id'=>$product->id])}}" enctype="multipart/form-data" method="post">
     @csrf
         <div>
-            <input type="file" name="img_path" class="form-control-file">
+            <input type="file" name="img_path" value="{{ old('img_path') ?:$product->img_path }}" class="form-control-file">
         </div>
         <div>
             <label>商品名</label>
@@ -24,15 +24,15 @@
         </div>
         <div>
             <label>コメント</label>
-            <textarea name="comment" cols="40" rows="5">
+            <textarea name="comment" value="comment"  cols="40" rows="5">
             {{$product->comment}}
             </textarea>
         </div>
         <div>
             {{ $product->company->company_name }}
-            <select name="company">
+            <select name="company" value="company">
                 @foreach ($company as $item)
-                    <option name="{{ $item->id }}">
+                    <option name="{{ $item->id }}" value="{{ $item->id }}">
                         {{ $item->company_name }}
                     </option>
                 @endforeach
