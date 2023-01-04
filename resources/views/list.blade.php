@@ -7,7 +7,19 @@
         <div class="nav btn-group">
             <a href="{{ route('create') }}" class="btn-outline-primary">商品登録</a>
             @auth
-                <a href="{{ url('/home') }}" class="btn-outline-primary">Home</a>
+                <!--<a href="{{ url('/home') }}" class="btn-outline-primary">Home</a>-->
+               
+                    <a class="btn-outline-primary"href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
+                                        document.getElementById('logout-form').submit();">
+                        {{ __('Logout') }}
+                    </a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+              
+
             @else
                 <a href="{{ route('login') }}" class="btn-outline-primary">Login</a>
 
@@ -26,11 +38,12 @@
         type="text" 
         name="keyword" 
         placeholder="キーワードを入力"
-        value="@if (isset( $keyword1 )) {{ $keyword1 }}@endif"
+        value="@if (isset( $keyword )) {{ $keyword }}@endif"
     >
-    <select name="company">
+    <select name="company" value="company">
+        <option value="">選択してください</option>
         @foreach($company as $item)
-        <option value="{{ $item->id }}">{{ $item->company_name }}</option>
+        <option name="{{ $item->id }} company_name" value="{{ $item->id }}">{{ $item->company_name }}</option>
         @endforeach
     </select>
     <button type="submit">検索</button>

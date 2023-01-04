@@ -61,7 +61,6 @@ class Product extends Model
             $filename = basename($path);
             $data->img_path = $filename;
         }
-
         DB::table('products')->where('id',$data->id)->update([
             'company_id'    =>  $data->company,
             'product_name'  =>  $data->product_name,
