@@ -45,7 +45,9 @@ class ProductController extends Controller
             $query->where('company_id', $search2);
         }
         $products = $query->get();
-        return view('search', compact('products', 'search1', 'search2'));
+        return response()->json([
+            view('search', compact('products', 'search1', 'search2'))->render()
+        ]);
     }
 
     /**

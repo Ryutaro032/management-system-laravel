@@ -31,6 +31,7 @@
         <div>
             {{ $product->company->company_name }}
             <select name="company" value="company">
+                <option value="">選択してください</option>
                 @foreach ($company as $item)
                     <option name="{{ $item->id }}" value="{{ $item->id }}">
                         {{ $item->company_name }}

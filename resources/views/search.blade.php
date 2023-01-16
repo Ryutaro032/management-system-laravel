@@ -37,4 +37,5 @@
     @endforeach
     </tbody>
 </table>
+<a href="{{ route('list') }}"><input type="button" name="" id="" value="一覧表示に戻る"></a>
 @endsection

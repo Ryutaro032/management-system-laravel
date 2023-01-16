@@ -33,7 +33,7 @@ class Product extends Model
 
     public function insertNewProduct($data) {
         $image = $data->file('img_path');
-        $path = $data->img_path;
+        $path  = $data->img_path;
         if(isset($image)){
             $path = $image->store('public/image');
             $filename = basename($path);
@@ -54,7 +54,7 @@ class Product extends Model
 
     public function updateProduct($data) {
         $image = $data->file('img_path');
-        $path = $data->img_path;
+        $path  = $data->img_path;
         if(isset($image)){
             \Storage::disk('public')->delete($path);
             $path = $image->store('public/image');
