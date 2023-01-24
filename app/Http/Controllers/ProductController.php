@@ -27,29 +27,31 @@ class ProductController extends Controller
 
     /**
      * 検索機能
-     * 
+     *
      */
-    public function search(Request $req){
+     public function search(Request $req){
         //name属性をget
-        $search1 = $req->get('keyword');
-        $search2 = $req->get('company');
+        $keyword_search = $req->get('keyword');
+        $company_search = $req->get('company');
+        dd($keyword_search);
 
         $model = new Product();
         $products = $model->getList();
         $query = Product::query();
 
-        if(!empty($search1)){
-            $query->where('product_name', 'like', '%'.$search1.'%');
+        if(!empty($keyword_search)){
+            $query->where('product_name', 'like', '%'.$keyword_search.'%');
+            return $keyword_search;
         }
-        if(!empty($search2)){
-            $query->where('company_id', $search2);
+        if(!empty($company_search)){
+            $query->where('company_id', $company_search);
+            return $company_search;
         }
         $products = $query->get();
-        return response()->json([
-            view('search', compact('products', 'search1', 'search2'))->render()
-        ]);
+        return response()->json(
+            view('search', compact('products', 'keyword_search', 'company_search'))
+        );
     }
-
     /**
      * 削除機能
      * @param int $id
