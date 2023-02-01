@@ -72,5 +72,4 @@ class Product extends Model
             'updated_at' => now()
         ]);
     }
-
 }

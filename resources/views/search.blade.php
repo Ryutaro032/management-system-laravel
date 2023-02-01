@@ -1,4 +1,4 @@
-@extends('layouts.layout')
+@extends('layouts.app')
 @section('title','検索結果')
 @section('content')
 <h1>検索結果</h1>

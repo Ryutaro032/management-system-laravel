@@ -1,4 +1,4 @@
-@extends('layouts.layout')
+@extends('layouts.app')
 @section('title','詳細表示')
 @section('content')
 <table class="table">
@@ -15,7 +15,7 @@
     </thead>
     <tbody>
         <tr>
-            <td hidden name="id">{{ $product->id }}</td>
+            <td>{{ $product->id }}</td>
             <td><img src="{{ asset('storage/image/' . $product->img_path) }}" alt="{{ $product->img_path }}" name="img_path"></td>
             <td name="product_name">{{ $product->product_name }}</td>
             <td name="company">

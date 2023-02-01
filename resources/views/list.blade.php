@@ -1,49 +1,24 @@
-@extends('layouts.layout')
+@extends('layouts.app')
 @section('title','一覧画面')
 @section('main-title','商品一覧')
-@section('header')
-<div class="top-right">
-    @if (Route::has('login'))
-        <div class="nav btn-group">
-            <a href="{{ route('create') }}" class="btn-outline-primary">商品登録</a>
-            @auth
-                <a class="btn-outline-primary"href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                                    document.getElementById('logout-form').submit();">
-                    {{ __('Logout') }}
-                </a>
-
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf
-                </form>
-            @else
-                <a href="{{ route('login') }}" class="btn-outline-primary">Login</a>
-
-                @if (Route::has('register'))
-                    <a href="{{ route('register') }}" class="btn-outline-primary">Register</a>
-                @endif
-            @endauth
-        </div>
-    @endif
-</div>
-@endsection
 @section('search')
-<form action="{{ route('search') }}" method="get" class="search-from">
+<form action="{{ route('search') }}" method="post" class="search-from">
     @csrf
     <input 
         type="text" 
         class="keyword"
-        id="keyword" 
+        id="keyword"
+        name="keyword"
         placeholder="キーワードを入力"
         value="@if (isset( $keyword )) {{ $keyword }}@endif"
     >
-    <select id="company" class="company" value="company">
-        <option>選択してください</option>
+    <select id="company" class="company" value="@if (isset( $company )) {{ $company }}@endif" name="company">
+        <option></option>
         @foreach($company as $item)
         <option name="{{ $item->id }}" value="{{ $item->id }}">{{ $item->company_name }}</option>
         @endforeach
     </select>
-    <button type="button" class="search-btn" id="search-btn">検索</button>
+    <input type="button" class="search-btn" id="search-btn" value="検索">
 </form>
 @endsection
 @section('content')
