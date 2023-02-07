@@ -13,7 +13,7 @@
 //一覧表示
 Route::get('/product', 'ProductController@showList')->name('list');
 //検索機能
-Route::post('/product/search', 'ProductController@search')->name('search');
+Route::get('/product/search', 'ProductController@search')->name('search');
 //削除
 Route::post('product/delete/{id}', 'ProductController@delete')->name('delete');
 //登録画面の表示
