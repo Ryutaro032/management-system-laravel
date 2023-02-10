@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('title','一覧画面')
 @section('main-title','商品一覧')
-@section('search')
-<form action="{{ route('search') }}" method="post" class="search-from">
+@section('content')
+<form action="{{ route('search') }}" method="get" class="search-from">
     @csrf
     <input 
         type="text" 
@@ -10,18 +10,15 @@
         id="keyword"
         name="keyword"
         placeholder="キーワードを入力"
-        value="@if (isset( $keyword )) {{ $keyword }}@endif"
     >
-    <select id="company" class="company" value="@if (isset( $company )) {{ $company }}@endif" name="company">
+    <select id="company" class="company" name="company">
         <option></option>
         @foreach($company as $item)
         <option name="{{ $item->id }}" value="{{ $item->id }}">{{ $item->company_name }}</option>
         @endforeach
     </select>
-    <input type="button" class="search-btn" id="search-btn" value="検索">
+    <input type="submit" class="search-btn" id="search-btn" value="検索">
 </form>
-@endsection
-@section('content')
 @if (session('err_msg'))
     <p>
         {{ session('err_msg') }}
