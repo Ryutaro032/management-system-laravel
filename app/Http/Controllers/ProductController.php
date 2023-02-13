@@ -48,8 +48,9 @@ class ProductController extends Controller
         }
 
         $products = $query->get();
+        $data = response()->json($products);
     
-        return view('list',['products'=>$products,'company' => $company]);
+        return view('list',['products'=>$products,'company' => $company,'data'=>$data]);
     }
     
     /**

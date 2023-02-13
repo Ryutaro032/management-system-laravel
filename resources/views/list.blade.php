@@ -17,7 +17,7 @@
         <option name="{{ $item->id }}" value="{{ $item->id }}">{{ $item->company_name }}</option>
         @endforeach
     </select>
-    <input type="submit" class="search-btn" id="search-btn" value="検索">
+    <input type="button" class="search-btn" id="search-btn" value="検索">
 </form>
 @if (session('err_msg'))
     <p>

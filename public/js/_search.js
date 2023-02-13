@@ -22,6 +22,7 @@ $(function(){
         })
             .done(function (data) {
                 console.log(data);
+                $('#app').html(data);
             })
             .fail(function (jqXHR, textStatus,errorThrown) {
                 console.log(jqXHR.status);
