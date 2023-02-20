@@ -12,6 +12,7 @@
 */
 //一覧表示
 Route::get('/product', 'ProductController@showList')->name('list');
+Route::get('/product/{sort?}', 'ProductController@showList')->name('list');
 //検索機能
 Route::get('/product/search', 'ProductController@search')->name('search');
 //削除

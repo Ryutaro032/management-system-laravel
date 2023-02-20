@@ -18,9 +18,9 @@ class ProductController extends Controller
      * 一覧画面
      * @return view
     */
-    public function showList() {
+    public function showList($sort=null) {
         $model = new Product();
-        $products = $model->getList();
+        $products = $model->getList($sort);
         $company = Company::all();
         return view('list',['products' => $products,'company' => $company]);
     }
@@ -31,12 +31,16 @@ class ProductController extends Controller
      *
      */
     public function search(Request $req){
-        $keyword = $req->input('keyword');
+        $keyword      = $req->input('keyword');
         $company_name = $req->input('company');
+        $price_upper  = $req->input('price_upper');
+        $price_lower  = $req->input('price_lower');
+        $stock_upper  = $req->input('stock_upper');
+        $stock_lower  = $req->input('stock_lower');
 
-        $model = new Product();
+        $model    = new Product();
         $products = $model->getList();
-        $company = Company::all();
+        $company  = Company::all();
         
         $query = Product::query();
 
@@ -46,11 +50,19 @@ class ProductController extends Controller
         if (!empty($company_name)) {
             $query->where('company_id', $company_name)->get();
         }
+        if ($price_upper && $price_lower) {
+            $query->where('price', '<=',$price_upper)->where('price','>=',$price_lower)->get();
+        }
+        
+        if ($stock_upper && $stock_lower) {
+            $query->where('stock', '<=',$stock_upper)->where('stock','>=',$stock_lower)->get();
+        }
 
         $products = $query->get();
+        //dd($products);
         $data = response()->json($products);
     
-        return view('list',['products'=>$products,'company' => $company,'data'=>$data]);
+        return view('list',['products'=>$products,'company' => $company]);
     }
     
     /**
@@ -58,7 +70,7 @@ class ProductController extends Controller
      * @param int $id
      */
     public function delete($id){
-        $model = new product();
+        $model   = new product();
         $product = $model->getList()->find($id);
         $product->delete($id);
         return redirect()->route('list');

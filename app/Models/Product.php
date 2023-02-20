@@ -21,13 +21,28 @@ class Product extends Model
         'updated_at'
     ];
 
+    protected $casts = [
+        'price' => 'integer',
+        'stock' => 'integer',
+      ];
+
     public function company()
     {
        return $this->belongsTo('App\Models\Company','company_id');
     }
 
-    public function getList(){
-        $products = Product::with('company')->get();
+    public function getList($sortAsc=null,$sortDesc=null){
+
+        if($sortAsc === 'price'){
+            $data = Product::with('company')->orderBy('price','asc');
+        }elseif($sortDesc === 'price'){
+            $data = Product::with('company')->orderBy('price','disc');
+        }
+        else{
+            $data = Product::with('company');
+        }
+        $products = $data->get();
+
         return $products;
     }
 
