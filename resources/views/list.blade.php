@@ -46,10 +46,26 @@
         <tr>
         <th> ID</th>
             <th>商品画像</th>
-            <th>商品名</th>
-            <th><a href="http://localhost/management-system/public/product/price" id="price">価格</a></th>
-            <th>在庫数</th>
-            <th>メーカー名</th>
+            <th>
+                商品名
+                <a href="http://localhost/management-system/public/product/productNameAsc" id="productNameAsc">▼</a>
+                <a href="http://localhost/management-system/public/product/productNameDesc" id="productNameDesc">▲</a>
+            </th>
+            <th>
+                価格
+                <a href="http://localhost/management-system/public/product/priceAsc" id="priceAsc">▼</a>
+                <a href="http://localhost/management-system/public/product/priceDesc" id="priceDesc">▲</a>
+            </th>
+            <th>
+                在庫数
+                <a href="http://localhost/management-system/public/product/stockAsc" id="stockAsc">▼</a>
+                <a href="http://localhost/management-system/public/product/stockDesc" id="stockDesc">▲</a>
+            </th>
+            <th>
+                メーカー名
+                <a href="http://localhost/management-system/public/product/companyAsc" id="companyAsc">▼</a>
+                <a href="http://localhost/management-system/public/product/companyDesc" id="companyDesc">▲</a>
+            </th>
         </tr>
     </thead>
     <tbody>
