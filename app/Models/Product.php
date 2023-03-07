@@ -31,34 +31,9 @@ class Product extends Model
        return $companies;
     }
 
-    public function getList($sort=null){
-        $data = Product::with('company');
-
-        if($sort === 'priceAsc'){
-            $data = Product::with('company')->orderBy('price','asc');
-        }elseif($sort === 'priceDesc'){
-            $data = Product::with('company')->orderBy('price','desc');
-        }
-
-        if($sort === 'stockAsc'){
-            $data = Product::with('company')->orderBy('stock','asc');
-        }elseif($sort === 'stockDesc'){
-            $data = Product::with('company')->orderBy('stock','desc');
-        }
-
-        if($sort === 'productNameAsc'){
-            $data = Product::with('company')->orderBy('product_name','asc');
-        }elseif($sort === 'productNameDesc'){
-            $data = Product::with('company')->orderBy('product_name','desc');
-        }
-
-        if($sort === 'companyAsc'){
-            $data = Product::with('company')->orderBy('company_id','asc');
-        }elseif($sort === 'companyDesc'){
-            $data = Product::with('company')->orderBy('company_id','desc');
-        }
-        
-        $products = $data->get();
+    public function getList(){
+        $items = Product::with('company');
+        $products = $items->get();
         
         return $products;
     }

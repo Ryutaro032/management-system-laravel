@@ -18,9 +18,9 @@ class ProductController extends Controller
      * 一覧画面
      * @return view
     */
-    public function showList($sort=null) {
+    public function showList() {
         $model = new Product();
-        $products = $model->getList($sort);
+        $products = $model->getList();
         $company = Company::all();
         return view('list',['products' => $products,'company' => $company]);
     }
@@ -62,17 +62,18 @@ class ProductController extends Controller
         //dd($products);
         $data = response()->json($products);
     
-        return view('list',['products'=>$products,'company' => $company]);
+        return view('list',['products'=>$products,'company' => $company,'data'=>$data]);
     }
     
     /**
      * 削除機能
-     * @param int $id
+     * 
      */
-    public function delete($id){
-        $model   = new product();
-        $product = $model->getList()->find($id);
-        $product->delete($id);
+    public function delete(Request $req,$id){
+        $product_id = $req->product_id;
+        $model = new product();
+        $product = $model->getList()->find($product_id);
+        $deleteData = $product->delete();
         return redirect()->route('list');
     }
 
