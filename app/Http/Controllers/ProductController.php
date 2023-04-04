@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\ProductRequest;
-use App\Http\Requests\CompanyRequest;
 use App\Models\Product;
 use App\Models\Company;
 use Illuminate\Support\Facades\Storage;
@@ -31,35 +30,9 @@ class ProductController extends Controller
      *
      */
     public function search(Request $req){
-        $keyword      = $req->input('keyword');
-        $company_name = $req->input('company');
-        $price_upper  = $req->input('price_upper');
-        $price_lower  = $req->input('price_lower');
-        $stock_upper  = $req->input('stock_upper');
-        $stock_lower  = $req->input('stock_lower');
-
-        $model    = new Product();
-        $products = $model->getList();
+        $model = new Product();
+        $products = $model->searchProduct($req);
         $company  = Company::all();
-        
-        $query = Product::query();
-
-        if (!empty($keyword)) {
-            $query->where('product_name', 'like', '%'.$keyword.'%')->get();
-        }
-        if (!empty($company_name)) {
-            $query->where('company_id', $company_name)->get();
-        }
-        if ($price_upper && $price_lower) {
-            $query->where('price', '<=',$price_upper)->where('price','>=',$price_lower)->get();
-        }
-        
-        if ($stock_upper && $stock_lower) {
-            $query->where('stock', '<=',$stock_upper)->where('stock','>=',$stock_lower)->get();
-        }
-
-        $products = $query->get();
-        //dd($products);
         $data = response()->json($products);
     
         return view('list',['products'=>$products,'company' => $company,'data'=>$data]);
@@ -71,9 +44,11 @@ class ProductController extends Controller
      */
     public function delete(Request $req,$id){
         $product_id = $req->product_id;
-        $model = new product();
-        $product = $model->getList()->find($product_id);
+
+        $model      = new product();
+        $product    = $model->getList()->find($product_id);
         $deleteData = $product->delete();
+
         return redirect()->route('list');
     }
 
@@ -83,8 +58,9 @@ class ProductController extends Controller
      * @return view
     */
     public function showDetail($id){
-        $model = new product();
+        $model   = new product();
         $product = $model->getList()->find($id);
+
         return view('detail',['product' => $product]);
     }
 
@@ -122,7 +98,7 @@ class ProductController extends Controller
      * @return view
     */
     public function showEdit($id){
-        $model = new product();
+        $model   = new product();
         $product = $model->getList()->find($id);
         $company = Company::all();
 
@@ -137,8 +113,9 @@ class ProductController extends Controller
     public function updateStore(Request $req, $id){
         DB::beginTransaction();
         try{
-            $model = new Product();
+            $model   = new Product();
             $product = $model->getList()->find($id);
+            
             $product->updateProduct($req);
             DB::commit();
         }catch(\Exception $e){
