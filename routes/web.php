@@ -12,11 +12,10 @@
 */
 //一覧表示
 Route::get('/product', 'ProductController@showList')->name('list');
-Route::get('/product/{sort?}', 'ProductController@showList')->name('list');
 //検索機能
 Route::get('/product/search', 'ProductController@search')->name('search');
 //削除
-Route::post('product/delete/{id}', 'ProductController@delete')->name('delete');
+Route::post('/product/delete/{id}', 'ProductController@delete')->name('delete');
 //登録画面の表示
 Route::get('/product/create', 'ProductController@showCreate')->name('create');
 //商品登録
