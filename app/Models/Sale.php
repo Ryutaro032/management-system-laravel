@@ -22,9 +22,9 @@ class Sale extends Model
 
     public function insertProductId($data){
         DB::table('sales')->insert([
-            'product_id' => $data->$product->id,
-            'created_at'    =>  now(),
-            'updated_at'    =>  now(),
+            'product_id' => $data->$product_id,
+            'created_at' =>  now(),
+            'updated_at' =>  now(),
         ]);
     }
 }

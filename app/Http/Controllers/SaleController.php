@@ -16,18 +16,10 @@ class SaleController extends Controller
         $saleModel->insertProductId($req);
 
         $productModel = new Product();
-        $products = $productModel->getList();
+        $products = $productModel->where('id',$data->id)->decrement('stock', 1);
+        $products = $products->getList();
         $company = Company::all();
 
         return view('list',['products' => $products,'company' => $company]);
-    }
-
-    public function itemStock(Request $req){
-        $model = new product();
-        $products=$model->getList()->where('id',$req->id)->decrement('stock', 1);
-
-        $company = Company::all();
-
-        return view('list',['products' => $products,'company' => $company]);;
     }
 }
